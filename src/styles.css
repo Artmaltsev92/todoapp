@@ -1,0 +1,60 @@
+* {
+    padding: 20px;
+    margin: 0 auto;
+}
+
+header {
+    font-family: 'Oswald', sans-serif;
+    font-size: 72px;
+    color: #00BABC;
+    text-align: center;
+    background-size: 250px;
+    background-repeat: no-repeat;
+    background-position: center 15px;
+    padding-top: 180px;
+    margin: 10px 0px;
+}
+
+h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 48px;
+    color: #005468;
+    padding: 10px;
+}
+
+.input {
+    font-family: 'Roboto', sans-serif;;
+    font-weight: 100;
+    color: gray;
+    border: #005468 dotted;
+    text-align: center;
+    padding: 5px;
+    
+}
+
+tr.col th {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 30px;
+    color: gray;
+    text-align: center;
+}
+
+.done {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #005468;
+    text-align: center;
+    border: gray dotted;
+} 
+
+.to_do {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #005468;
+    text-align: center;
+    border: gray dotted;
+    border-color: #005468;
+}

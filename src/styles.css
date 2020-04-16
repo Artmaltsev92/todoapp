@@ -58,3 +58,7 @@ tr.col th {
     border: gray dotted;
     border-color: #005468;
 }
+
+.table {
+    text-align: center;
+}

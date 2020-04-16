@@ -1,4 +1,5 @@
 import './styles.css';
+import { create, check } from './helper';
 
 const form = document.getElementById('todoForm');
 let counter = 0;
@@ -6,61 +7,85 @@ let counter = 0;
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     counter++;
-    const todoObj = {
-        id: counter,
-        task: document.getElementById('todoNew').value,
-        done: false
+    const inputValue = document.getElementById('todoNew')
+    if(check(inputValue.value)) {
+        const todoObj = {
+            id: counter,
+            task: inputValue.value,
+            done: false
+        }
+        addNewToDo(todoObj)
     }
-
-    addNewToDo(todoObj)
+    recalculate()
+    inputValue.value = ''
 })
 
 const addNewToDo = (todo) => {
     const todoTableBody = document.getElementById('todoList');
 
-    const todoRow = document.createElement('tr');
-    todoRow.setAttribute('id', todo.id);
+    const todoRow = create('tr', todo.id);
 
-    //TODO: добавить редактирование
-    todoRow.addEventListener('click', () => {
-        console.log('Edit me!')
-        editToDo
-    })
-
-    const btn = document.createElement('button');
-    const td = document.createElement('td');
-
-    btn.setAttribute('id', todo.id);
+    const btn = create('button', 'deleteBtn_' + todo.id, 'btn btn-danger', 'x');
     btn.addEventListener('click', deleteToDo);
-    btn.innerText = 'Del'
-    btn.setAttribute('class', 'btn btn-danger')
-    td.appendChild(btn)
 
-    todoRow.innerHTML = `<td>${todo.task}</td>
-        <td>
-            <input type="checkbox" ${ todo.done && 'checked'}>
-        </td>`
-        
-    todoRow.appendChild(td)
+    const tdWithBtn = create('td');
+    tdWithBtn.appendChild(btn)
+
+    const tdWithTask = create('td', 'taskTd_' + todo.id, null, todo.task)
+    tdWithTask.addEventListener('click', onEditToDo)
+
+    const tdWithCheckbox = create('td')
+    const checkbox = create('input', 'check_' + todo.id, 'checkbox')
+    checkbox.type = 'checkbox'
+    checkbox.addEventListener('change', () => recalculate())
+    tdWithCheckbox.appendChild(checkbox)   //innerHTML = `<input type="checkbox" ${ todo.done && 'checked'} />`;
+
+    todoRow.appendChild(tdWithTask)
+    todoRow.appendChild(tdWithCheckbox)
+    todoRow.appendChild(tdWithBtn)  
     todoTableBody.appendChild(todoRow)
 }
 
 const deleteToDo = (e) =>{
-    const id = e.target.id
     const todoTableBody = document.getElementById('todoList');
+    const tr = document.getElementById(e.target.id.replace('deleteBtn_', ''));
+    todoTableBody.removeChild(tr)
+    recalculate()
+}
 
-    for(let child of todoTableBody.children)
-    {       
-        if(child.id === id)
-        {
-            todoTableBody.removeChild(child)
-            break
-        }
+const onEditToDo = (e) => {
+    const input = create('input', 'editInput_' + e.target.id.replace('taskTd_', ''), 'form-control')
+    input.type = 'text'
+    input.value = e.target.innerText
+    input.addEventListener('keypress', keyEnter)
+    e.target.innerText = ''
+    e.target.appendChild(input)
+}
+
+const keyEnter = (e) => {
+    if (e.key === "Enter") {
+        const tr = document.getElementById(e.target.id.replace('editInput_', 'taskTd_'));
+        tr.removeChild(e.target)
+        tr.innerText = e.target.value
     }
 }
 
+const recalculate = () => {
+    let elements = document.getElementsByClassName('checkbox')
+    let count = 0;
+    for(let el of elements) {
+        if(el.checked) {
+            count++
+        }
+    }
 
+    const total = document.getElementById('total')
+    const doneTotal = document.getElementById('doneTotal')
+    const undoneTotal = document.getElementById('undoneTotal')
 
-const editToDo = (id, value) => {
+    const undone = elements.length - count;
+    total.innerText = 'Итого: ' + elements.length
+    doneTotal.innerText = 'Сделано: ' + count
+    undoneTotal.innerText = 'Осталось: ' + undone
 
-}
+} 

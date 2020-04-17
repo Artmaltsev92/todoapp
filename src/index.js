@@ -2,6 +2,30 @@ import './styles.css';
 
 const form = document.getElementById('todoForm');
 let counter = 0;
+let todos = []
+
+
+const addNewToDo = (todo) => {
+    const todoRow = document.createElement('tr');
+    todoRow.setAttribute('id', todo.id);
+
+    todoRow.innerHTML = 
+    `<td id=${'edit_' + todo.id}>${todo.task}</td>
+    <td><input type="checkbox" ${ todo.done && 'checked'} /></td>
+    <td><button class="btn btn-danger" id=${'dlt_' + todo.id}>x</button></td>`
+        
+    return todoRow
+}
+
+
+const render = () => {
+    const todoTableBody = document.getElementById('todoList');
+    todoTableBody.innerHTML = ''
+    for(let todo of todos) {
+        todoTableBody.appendChild(addNewToDo(todo))
+    }
+}
+
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -12,38 +36,16 @@ form.addEventListener('submit', (e) => {
         done: false
     }
 
-    addNewToDo(todoObj)
+    todos = [...todos, todoObj]
+    render()
 })
 
-const addNewToDo = (todo) => {
-    const todoTableBody = document.getElementById('todoList');
+document.addEventListener('click', clickHandler)
 
-    const todoRow = document.createElement('tr');
-    todoRow.setAttribute('id', todo.id);
+const clickHandler = (e) => {
 
-    //TODO: добавить редактирование
-    todoRow.addEventListener('click', () => {
-        console.log('Edit me!')
-        editToDo
-    })
-
-    const btn = document.createElement('button');
-    const td = document.createElement('td');
-
-    btn.setAttribute('id', todo.id);
-    btn.addEventListener('click', deleteToDo);
-    btn.innerText = 'Del'
-    btn.setAttribute('class', 'btn btn-danger')
-    td.appendChild(btn)
-
-    todoRow.innerHTML = `<td>${todo.task}</td>
-        <td>
-            <input type="checkbox" ${ todo.done && 'checked'}>
-        </td>`
-        
-    todoRow.appendChild(td)
-    todoTableBody.appendChild(todoRow)
 }
+
 
 const deleteToDo = (e) =>{
     const id = e.target.id

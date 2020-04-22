@@ -1,7 +1,7 @@
 import './styles.css';
 import { createStore } from 'redux';
 import { todoHandler } from './redux/rootReducer';
-import { addTodo, removeTodo, onEditTodo, onToggleTodo, EditTodo, ResetList } from './redux/actions';
+import { addTodo, removeTodo, onEditTodo, onToggleTodo, editTodo, resetList } from './redux/actions';
 import { check } from './helper'
 import { render } from './render'
 
@@ -23,14 +23,14 @@ const clickHandler = (e) => {
         render(store.getState().todo_list)
     }
     else {
-        store.dispatch(ResetList())
+        store.dispatch(resetList())
         render(store.getState().todo_list)
     }
 }
 
 const onKeyPress = (e) => {
     if(e.key === 'Enter' && !e.target.id.indexOf('input_')) {
-        store.dispatch(EditTodo(e.target.id, e.target.value))
+        store.dispatch(editTodo(e.target.id, e.target.value))
         render(store.getState().todo_list)
     }
 }

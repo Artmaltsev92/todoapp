@@ -33,7 +33,7 @@ export function onToggleTodo(id) {
     }
 }
 
-export function EditTodo(id, task) {
+export function editTodo(id, task) {
     return {
         type: EDIT_TODO,
         id: +id.replace('input_', ''),
@@ -41,7 +41,7 @@ export function EditTodo(id, task) {
     }
 }
 
-export function ResetList() {
+export function resetList() {
     return {
         type: RESET
     }

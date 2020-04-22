@@ -16,7 +16,8 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const input = document.getElementById('todoNew').value
     store.dispatch(addToDO(input))
-    console.log(store.getState())})
+    console.log(store.getState())
+})
 
 
 

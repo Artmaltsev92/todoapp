@@ -1,19 +1,17 @@
-import { ADD_TODO, REMOVE_TODO, COMPLETE_TODO, UPDATE_TODO } from "./types";
+import {ADD_TODO,EDIT_TODO,REMOVE_TODO,GENERATE_ROW,ON_EDIT,TOTAL,DONE,UNDONE } from "./types";
 
-export function addToDO (text) {
+export function addToDO (input) {
     return {
         type: ADD_TODO,
-        text
+        id:0,
+        task: input,
+        done: false,
+        onEdit: false
+        /* todo: {
+            id:0,
+            task: input,
+            done: false,
+            onEdit: false
+        } */
     }
-}
-
-export function toggleToDo (index) {
-    return {
-        type: TOGGLE_TODO,
-        index
-    }
-}    
-
-export function setVisibilityFilter(filter) {
-    return { type: SET_VISIBILITY_FILTER, filter }
 }

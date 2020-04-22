@@ -1,48 +1,68 @@
-import { combineReducers } from 'redux'
-import {
-  ADD_TODO,
-  TOGGLE_TODO,
-  SET_VISIBILITY_FILTER,
-  VisibilityFilters
-} from './actions'
-const { SHOW_ALL } = VisibilityFilters
+import { combineReducers } from "redux"
+import {ADD_TODO,EDIT_TODO,REMOVE_TODO,GENERATE_ROW,ON_EDIT,TOTAL,DONE,UNDONE } from "./types";
 
-function visibilityFilter(state = SHOW_ALL, action) {
-  switch (action.type) {
-    case SET_VISIBILITY_FILTER:
-      return action.filter
-    default:
-      return state
-  }
+const initialState = {
+  todo_list: [],
+  counter:0
 }
 
-function todos(state = [], action) {
+
+export const render = (todo_list) => {
+  const tbody = document.getElementById('todoList')
+  tbody.innerHTML = ''
+  todo_list.forEach(todo => tbody.appendChild(generateRow(todo)))
+  const total = document.getElementById('total')
+  const donetotal = document.getElementById('doneTotal')
+  const undonetotal = document.getElementById('undoneTotal') 
+  total.innerText = 'Итого: ' + todo_list.length
+  donetotal.innerText = 'Сделано: ' + todo_list.filter(t => t.done).length
+  undonetotal.innerText = 'Осталось: ' + todo_list.filter(t => !t.done).length
+} 
+
+
+
+ let onEditingState = {
+  onEditing: false,
+  id: 0,
+  previous: ''
+} 
+
+
+export function todos (state = initialState,action) {
   switch (action.type) {
     case ADD_TODO:
-      return [
-        ...state,
-        {
-          text: action.text,
-          completed: false
-        }
-      ]
-    case TOGGLE_TODO:
-      return state.map((todo, index) => {
-        if (index === action.index) {
-          return Object.assign({}, todo, {
-            completed: !todo.completed
-          })
-        }
-        return todo
-      })
+      state.counter++
+      const newState = {...state, 
+        todo_list: [
+          ...state.todo_list,
+          {
+            id:state.counter,
+            task: action.task,
+            done: false
+          }], 
+      }
+      render(newState.todo_list)
+      return newState
     default:
       return state
-  }
+    }
+    
 }
+const generateRow = (todo) => {
+  const todoRow = document.createElement('tr');
+  todoRow.setAttribute('id', todo.id);
 
-const todoApp = combineReducers({
-  visibilityFilter,
-  todos
-})
+  todoRow.innerHTML = 
+  `<td id=${'edit_' + todo.id}>
+  ${
+      todo.onEdit ? 
+      `<input class="form-control" type="text" id=${'input_' + todo.id} value=${todo.task} >`
+      :`${todo.task}`
+  }</td>
+  <td><input id=${'checkbox_' + todo.id} type="checkbox" ${ todo.done && 'checked'}></td>
+  <td><button class="btn btn-danger" id=${'dlt_' + todo.id}>x</button></td>`
+      
+  return todoRow
+} 
 
-export default todoApp
+

@@ -1,17 +1,42 @@
-import {ADD_TODO,EDIT_TODO,REMOVE_TODO,GENERATE_ROW,ON_EDIT,TOTAL,DONE,UNDONE } from "./types";
+import {ADD_TODO, EDIT_TODO, REMOVE_TODO, ON_EDIT, TOGGLE } from "./types";
 
-export function addToDO (input) {
+export function addTodo (input) {
     return {
         type: ADD_TODO,
-        id:0,
-        task: input,
-        done: false,
-        onEdit: false
-        /* todo: {
+        todo: {
             id:0,
             task: input,
             done: false,
             onEdit: false
-        } */
+        } 
+    }
+}
+
+export function removeTodo(id) {
+    return {
+        type: REMOVE_TODO,
+        id: +id.replace('dlt_', '')
+    }
+}
+
+export function onEditTodo(id) {
+    return {
+        type: ON_EDIT,
+        id: +id.replace('edit_', '')
+    }
+}
+
+export function onToggleTodo(id) {
+    return {
+        type: TOGGLE,
+        id: +id.replace('checkbox_', '')
+    }
+}
+
+export function EditTodo(id, task) {
+    return {
+        type: EDIT_TODO,
+        id: +id.replace('input_', ''),
+        task
     }
 }

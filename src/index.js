@@ -1,7 +1,7 @@
 import './styles.css';
 import { createStore } from 'redux';
 import { todoHandler } from './redux/rootReducer';
-import { addTodo, removeTodo, onEditTodo, onToggleTodo, EditTodo } from './redux/actions';
+import { addTodo, removeTodo, onEditTodo, onToggleTodo, EditTodo, ResetList } from './redux/actions';
 import { check } from './helper'
 import { render } from './render'
 
@@ -20,6 +20,10 @@ const clickHandler = (e) => {
     }
     else if(e.target.id.indexOf('checkbox_') === 0) {
         store.dispatch(onToggleTodo(e.target.id))
+        render(store.getState().todo_list)
+    }
+    else {
+        store.dispatch(ResetList())
         render(store.getState().todo_list)
     }
 }

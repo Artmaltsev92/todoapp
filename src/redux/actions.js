@@ -1,4 +1,4 @@
-import {ADD_TODO, EDIT_TODO, REMOVE_TODO, ON_EDIT, TOGGLE } from "./types";
+import {ADD_TODO, EDIT_TODO, REMOVE_TODO, ON_EDIT, TOGGLE, RESET } from "./types";
 
 export function addTodo (input) {
     return {
@@ -38,5 +38,11 @@ export function EditTodo(id, task) {
         type: EDIT_TODO,
         id: +id.replace('input_', ''),
         task
+    }
+}
+
+export function ResetList() {
+    return {
+        type: RESET
     }
 }

@@ -1,4 +1,4 @@
-import { ADD_TODO, REMOVE_TODO, ON_EDIT, TOGGLE, EDIT_TODO } from "./types";
+import { ADD_TODO, REMOVE_TODO, ON_EDIT, TOGGLE, EDIT_TODO, RESET } from "./types";
 
 const initialState = {
   todo_list: [],
@@ -43,6 +43,13 @@ export function todoHandler (state = initialState, action) {
       const todoEdit = state.todo_list.find(x => x.id === action.id)
       todoEdit.task = action.task
       todoEdit.onEdit = false
+      return state
+
+    case RESET:
+      if(state.todo_list.find(x => x.onEdit)) {
+        const todoOnEditFalse = state.todo_list.find(x => x.onEdit)
+        todoOnEditFalse.onEdit = false
+      }
       return state
 
     default:

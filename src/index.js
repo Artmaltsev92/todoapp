@@ -1,12 +1,13 @@
 import './styles.css';
 import { createStore } from 'redux';
-import { todos, render } from './redux/rootReducer';
+import { todoHandler } from './redux/rootReducer';
 import { addTodo, removeTodo, onEditTodo, onToggleTodo, EditTodo } from './redux/actions';
 import { check } from './helper'
+import { render } from './render'
 
 const form = document.getElementById('todoForm');
 
-const store = createStore(todos)
+const store = createStore(todoHandler)
 
 const clickHandler = (e) => {
     if(e.target.id.indexOf('dlt_') === 0) {

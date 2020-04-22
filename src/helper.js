@@ -1,27 +1,3 @@
-// метод, создающий тэг по входящим параметрам
-// создан в целях обёртки над длинными методами js-a
-// name - имя тега
-// id - id
-// className - имя класса
-// innerText - innerText
-// innerHtml - innerHTML
-export const create = (name, id = null, className = null, innerText = null, innerHtml = null) => {
-    const tag = document.createElement(name)
-    if(id) {
-        tag.setAttribute('id', id)
-    }
-    if(className) {
-        tag.setAttribute('class', className)
-    }
-    if(innerText) {
-        tag.innerText = innerText
-    }
-    if(innerHtml) {
-        tag.innerHTML = innerHtml
-    }
-    return tag
-}
-
 // проверка входящих значений
 export const check = (value) => {
     // если значение пустое
